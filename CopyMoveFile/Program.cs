@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Arguments;
 
 
 namespace CopyMoveFile
@@ -9,11 +8,11 @@ namespace CopyMoveFile
 	{
 		static void Main(string[] args)
 		{
-			var oArgs  = new Args(args);
+			var oArgs  = new Arguments(args);
 
-			string action = oArgs["action"] == null ? args[1] : oArgs["action"];
-			string inPath = oArgs["inPath"] != null ? oArgs["inPath"] : (oArgs["inFile"] != null ? oArgs["inFile"] : "");
-			string outPath = oArgs["outPath"] != null ? oArgs["outPath"] : (oArgs["outFile"] != null ? oArgs["outFile"] : "");
+			string action = oArgs["action"] == null ? args[0] : oArgs["action"];
+			string inPath = oArgs["inPath"] != null ? oArgs["inPath"] : (oArgs["inFile"] != null ? oArgs["inFile"] : (args[1] != null ? args[1] : ""));
+			string outPath = oArgs["outPath"] != null ? oArgs["outPath"] : (oArgs["outFile"] != null ? oArgs["outFile"] : (args[2] != null ? args[2] : ""));
 
 			if (string.IsNullOrEmpty(inPath) || string.IsNullOrEmpty(outPath))
 			{
@@ -23,8 +22,7 @@ namespace CopyMoveFile
 			}
 			if (string.IsNullOrEmpty(action))
 			{
-				Console.WriteLine("\nInvalid action parameter.\n\nUse -? to view available options");
-				Console.ReadLine();
+				Console.WriteLine("\nInvalid action parameter \"{0}\".\n\nUse -? to view available options", action);				
 				Environment.Exit(1);
 			}
 
@@ -37,7 +35,6 @@ namespace CopyMoveFile
 			if (!inFile.Exists)
 			{
 				Console.WriteLine("\nInvalid input file. Unable to locate \"{0}\"", inPath);
-				Console.ReadLine();
 				Environment.Exit(1);
 			}
 			
@@ -48,7 +45,6 @@ namespace CopyMoveFile
 			if (inIsDir)
 			{
 				Console.WriteLine("\nInvalid input file path. Currently only functional for single files.");
-				Console.ReadLine();
 				Environment.Exit(1);				
 			}
 
@@ -127,7 +123,6 @@ namespace CopyMoveFile
 
 				default:					
 					Console.WriteLine("Invalid action parameter.\n\nUse -? to view available options");
-					Console.ReadLine();
 					Environment.Exit(1);
 					break;
 			}
