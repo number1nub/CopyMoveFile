@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Text;
+using System.Windows.Forms;
 
 
 namespace CopyMoveFile
@@ -10,9 +12,39 @@ namespace CopyMoveFile
 		{
 			var oArgs  = new Arguments(args);
 
+			if (args.Length == 0)
+			{
+				Console.WriteLine("\nMust pass parameters!");
+				Environment.Exit(1);
+			}
+
+			if (oArgs["?"] != null)
+			{
+				StringBuilder sb = new StringBuilder();
+				sb.AppendLine();
+				sb.AppendLine("------------------------------------------------------------------------------------");
+				sb.AppendLine("\t\t" + Application.ProductName + " v" + Application.ProductVersion);
+				sb.AppendLine("------------------------------------------------------------------------------------");
+				sb.AppendLine();
+				sb.AppendLine("Allows copying or moving files from the command line.");
+				sb.AppendLine();
+				sb.AppendLine("USAGE:  CopyMoveFile <action> /inPath <path> /outPath <path>");
+				sb.AppendLine();
+				sb.AppendLine("  action\tEither 'copy' or 'move'.");
+				sb.AppendLine("  inPath\tPath of the source file to copy/move.");
+				sb.AppendLine("  outPath\tPath of the destination directory or file name (optionally renaming file).");
+				sb.AppendLine();
+				sb.AppendLine("inPath and outPath are assumed to be in the current directory if full path isn't specified.");
+				sb.AppendLine("------------------------------------------------------------------------------------");
+				sb.AppendLine();
+				
+				Console.WriteLine(sb.ToString());
+				Environment.Exit(0);
+			}
+
 			string action = oArgs["action"] == null ? args[0] : oArgs["action"];
-			string inPath = oArgs["inPath"] != null ? oArgs["inPath"] : (oArgs["inFile"] != null ? oArgs["inFile"] : (args[1] != null ? args[1] : ""));
-			string outPath = oArgs["outPath"] != null ? oArgs["outPath"] : (oArgs["outFile"] != null ? oArgs["outFile"] : (args[2] != null ? args[2] : ""));
+			string inPath = oArgs["inPath"] != null ? oArgs["inPath"] : (oArgs["inFile"] != null ? oArgs["inFile"] : (args.Length > 1 && args[1] != null ? args[1] : ""));
+			string outPath = oArgs["outPath"] != null ? oArgs["outPath"] : (oArgs["outFile"] != null ? oArgs["outFile"] : (args.Length > 2 && args[2] != null ? args[2] : ""));
 
 			if (string.IsNullOrEmpty(inPath) || string.IsNullOrEmpty(outPath))
 			{
