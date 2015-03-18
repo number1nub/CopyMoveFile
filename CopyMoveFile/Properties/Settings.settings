@@ -1,0 +1,26 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CopyMoveFile.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="helpTxt" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">
+------------------------------------------------------------------------------------
+		CopyMoveFile CmdLine Utility v[VERSION]
+------------------------------------------------------------------------------------
+
+Allows copying or moving files from the command line.
+
+USAGE:  CopyMoveFile &lt;action&gt; /inPath &lt;path&gt; [/outPath &lt;path&gt;]
+
+  action	Either 'copy' or 'move'.
+  inPath	Path of the source file to copy/move.
+  outPath	Path of the destination directory or file name (optionally
+			renaming the file). If not specified, a file selection dialog will be
+			displayed.
+
+All paths are assumed to be in the current directory if a full path isn't specified.
+------------------------------------------------------------------------------------
+</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
