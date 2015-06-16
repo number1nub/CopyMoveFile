@@ -16,16 +16,16 @@ namespace CopyMoveFile
 
 			if (args.Length == 0) {
 				Console.WriteLine("\nInvalid usage! Use -? to see help.");
-				Environment.Exit(1);
+				Environment.Exit(1); 
 			}
 
 			if (oArgs["?"] != null || oArgs["h"] != null || oArgs["help"] != null) {
-				Console.WriteLine(Settings.Default);
+				Console.WriteLine(Settings.Default.helpTxt);
 				Environment.Exit(0);
 			}
 
-			string action = oArgs["action"] == null ? args[0] : oArgs["action"];
-			string inPath = oArgs["inPath"] != null ? oArgs["inPath"] : (oArgs["inFile"] != null ? oArgs["inFile"] : (args.Length > 1 && args[1] != null ? args[1] : ""));
+			string action = oArgs["action"] ?? args[0];
+			string inPath = oArgs["inPath"] ?? (oArgs["inFile"] ?? (args.Length > 1 && args[1] != null ? args[1] : ""));
 			string outPath = null;
 			bool selectedPath = false;
 
@@ -40,7 +40,7 @@ namespace CopyMoveFile
 				}
 			}
 			else
-				outPath = oArgs["outPath"] != null ? oArgs["outPath"] : (args.Length > 2 && args[2] != null ? args[2] : "");
+				outPath = oArgs["outPath"] ?? (args.Length > 2 && args[2] != null ? args[2] : "");
 
 			if (string.IsNullOrEmpty(inPath) || string.IsNullOrEmpty(outPath)) {
 				Console.WriteLine("\nInvalid or missing file path(s).\n\nUse -? to view available options");
@@ -64,7 +64,7 @@ namespace CopyMoveFile
 			}
 
 			// Determine whether the paths are files or folders
-			bool outIsDir = selectedPath ? false : (outAttrs & FileAttributes.Directory) != 0 ? true : false;
+			bool outIsDir = !selectedPath && (outAttrs & FileAttributes.Directory) != 0 ? true : false;
 			bool inIsDir = (inAttrs & FileAttributes.Directory) != 0 ? true : false;
 
 			if (inIsDir) {
